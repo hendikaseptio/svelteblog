@@ -1,0 +1,17 @@
+<script lang="ts">
+	import { Badge } from "$lib/components/ui/badge/index.js";
+	import { CheckCircle2, Loader2 } from "lucide-svelte";
+	import type { Row } from "@tanstack/table-core";
+	import type { Schema } from "./schemas.js";
+
+	let { row }: { row: Row<Schema> } = $props();
+</script>
+
+<Badge variant="outline" class="text-muted-foreground px-1.5">
+	{#if row.original.status === "Done"}
+		<CheckCircle2 class="fill-green-500 dark:fill-green-400" />
+	{:else}
+		<Loader2 />
+	{/if}
+	{row.original.status}
+</Badge>
