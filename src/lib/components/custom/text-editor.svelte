@@ -41,22 +41,21 @@
 
 	// Mock uploader that reads file as data URL (Base64) to be displayed instantly.
 	// In production, you would upload this file to your S3/Cloudinary/backend and return the public URL.
-	const dummyUploader: Uploader<string> = async ({ file, onProgress }) => {
-		return new Promise((resolve) => {
-			const reader = new FileReader();
-			reader.onload = (e) => {
-				setTimeout(() => {
-					resolve(e.target?.result as string);
-				}, 500); // Simulate network delay
-			};
-			let progress = 0;
-			const interval = setInterval(() => {
-				progress += 20;
-				onProgress({ loaded: progress, total: 100 });
-				if (progress >= 100) clearInterval(interval);
-			}, 100);
-			reader.readAsDataURL(file);
+	const realUploader: Uploader<string> = async ({ file, onProgress }) => {
+		const formData = new FormData();
+		formData.append('file', file);
+
+		const response = await fetch('/api/media/upload', {
+			method: 'POST',
+			body: formData
 		});
+
+		if (!response.ok) {
+			throw new Error('Gagal mengupload gambar');
+		}
+
+		const result = await response.json();
+		return result.url;
 	};
 
 	// Initialize editor directly (ProseKit is SSR safe)
@@ -67,7 +66,7 @@
 			component: ImageView as SvelteNodeViewComponent,
 		})] : []),
 		defineImageUploadHandler({
-			uploader: dummyUploader
+			uploader: realUploader
 		})
 	);
 	
@@ -85,7 +84,7 @@
 		const target = e.target as HTMLInputElement;
 		if (target.files && target.files.length > 0) {
 			const file = target.files[0];
-			editor.commands.uploadImage({ file, uploader: dummyUploader });
+			editor.commands.uploadImage({ file, uploader: realUploader });
 			target.value = ''; // reset
 		}
 	}

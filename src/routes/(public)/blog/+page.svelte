@@ -2,8 +2,9 @@
 	import { Button } from "$lib/components/ui/button/index.js";
 	import { Input } from "$lib/components/ui/input/index.js";
 	import { Search } from "lucide-svelte";
+	import { page } from '$app/stores';
 
-	const categories = ["Teknologi", "Desain", "Tutorial", "Opini", "Svelte"];
+	let { data } = $props();
 </script>
 
 <div class="container mx-auto px-4 py-16">
@@ -18,39 +19,63 @@
 	</div>
 
 	<div class="flex flex-wrap justify-center gap-2 mb-12">
-		<Button variant="secondary" size="sm" class="rounded-full">Semua</Button>
-		{#each categories as category (category)}
-			<Button variant="ghost" size="sm" class="rounded-full">{category}</Button>
+		<Button 
+			variant={$page.url.searchParams.get('kategori') ? 'ghost' : 'secondary'} 
+			size="sm" 
+			class="rounded-full"
+			href="/blog"
+		>
+			Semua
+		</Button>
+		{#each data.categories as cat (cat.id)}
+			<Button 
+				variant={$page.url.searchParams.get('kategori') === cat.slug ? 'secondary' : 'ghost'} 
+				size="sm" 
+				class="rounded-full"
+				href="/blog?kategori={cat.slug}"
+			>
+				{cat.name}
+			</Button>
 		{/each}
 	</div>
 
-	<div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
-		{#each Array(6) as _, i (i)}
-			<article class="group">
-				<div class="aspect-video w-full rounded-2xl bg-muted mb-6 overflow-hidden border">
-					<img src="https://picsum.photos/seed/{i+20}/800/450" alt="Blog Post" class="h-full w-full object-cover transition-transform group-hover:scale-105" />
-				</div>
-				<div class="space-y-3">
-					<div class="flex items-center gap-2">
-						<span class="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">Teknologi</span>
-						<span class="text-xs text-muted-foreground">12 Mei 2026</span>
+	{#if data.posts.length > 0}
+		<div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+			{#each data.posts as post (post.id)}
+				<article class="group">
+					<div class="aspect-video w-full rounded-2xl bg-muted mb-6 overflow-hidden border">
+						{#if post.cover}
+							<img src={post.cover} alt={post.title} class="h-full w-full object-cover transition-transform group-hover:scale-105" />
+						{:else}
+							<div class="h-full w-full flex items-center justify-center bg-muted text-muted-foreground">
+								No Cover
+							</div>
+						{/if}
 					</div>
-					<h2 class="text-2xl font-bold leading-tight group-hover:text-primary transition-colors">
-						<a href="/blog/post-{i+1}">Bagaimana Svelte 5 Mengubah Cara Kita Membangun Web</a>
-					</h2>
-					<p class="text-muted-foreground line-clamp-3">
-						Svelte 5 memperkenalkan Runes, sebuah API reaktivitas baru yang lebih eksplisit dan kuat. Dalam artikel ini kita akan membahas detail implementasinya.
-					</p>
-					<div class="flex items-center gap-3 pt-2">
-						<div class="h-8 w-8 rounded-full bg-muted border overflow-hidden">
-							<img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Hendika" alt="Author" />
+					<div class="space-y-3">
+						<div class="flex items-center gap-2">
+							<span class="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+								{post.categoryName || 'Uncategorized'}
+							</span>
+							<span class="text-xs text-muted-foreground">
+								{new Date(post.publishedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+							</span>
 						</div>
-						<span class="text-sm font-medium">Hendika</span>
+						<h2 class="text-2xl font-bold leading-tight group-hover:text-primary transition-colors">
+							<a href="/blog/{post.slug}">{post.title}</a>
+						</h2>
+						<p class="text-muted-foreground line-clamp-3">
+							{post.excerpt || ''}
+						</p>
 					</div>
-				</div>
-			</article>
-		{/each}
-	</div>
+				</article>
+			{/each}
+		</div>
+	{:else}
+		<div class="text-center py-20">
+			<p class="text-muted-foreground text-lg">Belum ada artikel yang diterbitkan.</p>
+		</div>
+	{/if}
 
 	<div class="mt-16 flex justify-center">
 		<Button variant="outline">Muat Lebih Banyak</Button>

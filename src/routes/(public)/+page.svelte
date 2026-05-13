@@ -33,23 +33,29 @@
 			</div>
 		</div>
 
-		<!-- Featured Posts Placeholder -->
+		<!-- Featured Posts Section -->
 		<div class="mt-24 grid grid-cols-1 gap-8 md:grid-cols-3">
-			{#each Array(3) as _, i (i)}
+			{#each data.latestPosts as post (post.id)}
 				<div class="group relative overflow-hidden rounded-2xl border bg-card p-6 transition-all hover:shadow-lg">
 					<div class="aspect-video w-full rounded-lg bg-muted mb-4 overflow-hidden">
-						<img src="https://picsum.photos/seed/{i+10}/800/450" alt="Blog Post" class="h-full w-full object-cover transition-transform group-hover:scale-105" />
+						{#if post.cover}
+							<img src={post.cover} alt={post.title} class="h-full w-full object-cover transition-transform group-hover:scale-105" />
+						{:else}
+							<div class="h-full w-full flex items-center justify-center bg-muted text-muted-foreground">
+								No Image
+							</div>
+						{/if}
 					</div>
 					<div class="flex items-center gap-2 text-xs text-muted-foreground mb-2">
-						<span>12 Mei 2026</span>
+						<span>{new Date(post.publishedAt).toLocaleDateString('id-ID')}</span>
 						<span>•</span>
 						<span>5 menit baca</span>
 					</div>
-					<h3 class="text-xl font-bold">Judul Artikel Menarik Ke-{i+1}</h3>
+					<h3 class="text-xl font-bold">{post.title}</h3>
 					<p class="mt-2 text-sm text-muted-foreground line-clamp-2">
-						Ini adalah cuplikan singkat dari konten artikel blog yang akan ditampilkan di halaman depan. Sangat menarik untuk dibaca lebih lanjut.
+						{post.excerpt || ''}
 					</p>
-					<a href="/blog/sample-{i+1}" class="mt-4 inline-flex items-center text-sm font-semibold text-primary">
+					<a href="/blog/{post.slug}" class="mt-4 inline-flex items-center text-sm font-semibold text-primary">
 						Baca Selengkapnya <ArrowRight class="ml-1 h-3 w-3" />
 					</a>
 				</div>

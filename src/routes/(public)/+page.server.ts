@@ -1,10 +1,15 @@
 import { db } from '$lib/server/db';
-import { page as pageTable } from '$lib/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { page as pageTable, post } from '$lib/server/db/schema';
+import { eq, desc } from 'drizzle-orm';
 
 export const load = async () => {
-	const [page] = await db.select().from(pageTable).where(eq(pageTable.slug, 'home'));
+	const [homePage, latestPosts] = await Promise.all([
+		db.select().from(pageTable).where(eq(pageTable.slug, 'home')),
+		db.select().from(post).where(eq(post.status, 'published')).orderBy(desc(post.publishedAt)).limit(3)
+	]);
+
 	return {
-		page
+		page: homePage[0],
+		latestPosts
 	};
 };

@@ -47,14 +47,16 @@ export const actions: Actions = {
 				const buffer = Buffer.from(await file.arrayBuffer());
 				fs.writeFileSync(filePath, buffer);
 
-				const [inserted] = await db.insert(media).values({
+				const id = crypto.randomUUID();
+				await db.insert(media).values({
+					id,
 					name: file.name,
 					path: publicPath,
 					type: file.type,
 					size: file.size
-				}).returning();
+				});
 
-				results.push(inserted);
+				results.push({ id, name: file.name, path: publicPath });
 			} catch (e) {
 				console.error(`Gagal mengupload ${file.name}:`, e);
 			}
