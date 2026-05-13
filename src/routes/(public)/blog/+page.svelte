@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button } from "$lib/components/ui/button/index.js";
 	import { Input } from "$lib/components/ui/input/index.js";
-	import { ArrowRight, Search } from "lucide-svelte";
+	import { Search } from "lucide-svelte";
 
 	const categories = ["Teknologi", "Desain", "Tutorial", "Opini", "Svelte"];
 </script>
@@ -19,13 +19,13 @@
 
 	<div class="flex flex-wrap justify-center gap-2 mb-12">
 		<Button variant="secondary" size="sm" class="rounded-full">Semua</Button>
-		{#each categories as category}
+		{#each categories as category (category)}
 			<Button variant="ghost" size="sm" class="rounded-full">{category}</Button>
 		{/each}
 	</div>
 
 	<div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
-		{#each Array(6) as _, i}
+		{#each Array(6) as _, i (i)}
 			<article class="group">
 				<div class="aspect-video w-full rounded-2xl bg-muted mb-6 overflow-hidden border">
 					<img src="https://picsum.photos/seed/{i+20}/800/450" alt="Blog Post" class="h-full w-full object-cover transition-transform group-hover:scale-105" />

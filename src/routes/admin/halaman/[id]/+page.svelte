@@ -39,7 +39,7 @@
 			</Button>
 			<div>
 				<h1 class="text-2xl font-bold tracking-tight">
-					{data.page.id ? 'Edit Halaman' : 'Tambah Halaman Baru'}
+					{data.page?.id ? 'Edit Halaman' : 'Tambah Halaman Baru'}
 				</h1>
 				<p class="text-sm text-muted-foreground">
 					{title || 'Judul Halaman'}
@@ -47,7 +47,7 @@
 			</div>
 		</div>
 		<div class="flex items-center gap-2">
-			{#if data.page.id}
+			{#if data.page?.id}
 				<form method="POST" action="?/delete" use:enhance={() => {
 					return async ({ result }) => {
 						if (result.type === 'redirect') {

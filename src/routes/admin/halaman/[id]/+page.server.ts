@@ -2,13 +2,15 @@ import { db } from '$lib/server/db';
 import { page as pageTable } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { fail, redirect } from '@sveltejs/kit';
+import type { PageServerLoad, Actions } from './$types';
 
-export const load = async ({ params }) => {
+export const load: PageServerLoad = async ({ params }) => {
 	const id = params.id;
 	
 	if (id === 'tambah') {
 		return {
 			page: {
+				id: undefined,
 				title: '',
 				slug: '',
 				content: '',
@@ -28,7 +30,7 @@ export const load = async ({ params }) => {
 	};
 };
 
-export const actions = {
+export const actions: Actions = {
 	save: async ({ request, params }) => {
 		const formData = await request.formData();
 		const title = formData.get('title') as string;
@@ -41,7 +43,7 @@ export const actions = {
 		}
 
 		if (params.id === 'tambah') {
-			const [inserted] = await db.insert(pageTable).values({
+			await db.insert(pageTable).values({
 				title,
 				slug,
 				content,
@@ -53,14 +55,14 @@ export const actions = {
 		} else {
 			await db.update(pageTable)
 				.set({ title, slug, content, status })
-				.where(eq(pageTable.id, params.id));
+				.where(eq(pageTable.id, params.id!));
 			
 			return { success: true };
 		}
 	},
 	delete: async ({ params }) => {
 		if (params.id !== 'tambah') {
-			await db.delete(pageTable).where(eq(pageTable.id, params.id));
+			await db.delete(pageTable).where(eq(pageTable.id, params.id!));
 		}
 		throw redirect(302, '/admin/halaman');
 	}

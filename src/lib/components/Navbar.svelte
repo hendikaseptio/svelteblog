@@ -20,7 +20,7 @@
 		</div>
 
 		<div class="hidden md:flex items-center gap-6">
-			{#each navItems as item}
+			{#each navItems as item (item.href)}
 				<a
 					href={item.href}
 					class="text-sm font-medium transition-colors hover:text-primary {$page.url.pathname === item.href ? 'text-primary' : 'text-muted-foreground'}"

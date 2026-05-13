@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Button } from "$lib/components/ui/button/index.js";
-	import { ArrowLeft, Calendar, Clock, User, Share2, Bookmark } from "lucide-svelte";
-	import { page } from "$app/stores";
+	import { ArrowLeft, Calendar, Clock, Share2, Bookmark } from "lucide-svelte";
 
 	// In a real app, you would fetch this data based on the slug
 	const post = {

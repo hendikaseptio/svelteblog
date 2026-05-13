@@ -56,7 +56,7 @@
 	</div>
 
 	<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-		{#each tiers as tier}
+		{#each tiers as tier (tier.name)}
 			<div class="relative flex flex-col p-8 rounded-3xl border bg-card transition-all hover:shadow-xl {tier.featured ? 'border-primary ring-1 ring-primary scale-105 z-10' : ''}">
 				{#if tier.featured}
 					<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -74,7 +74,7 @@
 				</div>
 
 				<ul class="space-y-4 mb-10 flex-1">
-					{#each tier.features as feature}
+					{#each tier.features as feature (feature)}
 						<li class="flex items-start gap-3 text-sm">
 							<div class="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
 								<Check class="h-3 w-3 text-primary" />

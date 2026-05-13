@@ -35,7 +35,7 @@
 
 		<!-- Featured Posts Placeholder -->
 		<div class="mt-24 grid grid-cols-1 gap-8 md:grid-cols-3">
-			{#each Array(3) as _, i}
+			{#each Array(3) as _, i (i)}
 				<div class="group relative overflow-hidden rounded-2xl border bg-card p-6 transition-all hover:shadow-lg">
 					<div class="aspect-video w-full rounded-lg bg-muted mb-4 overflow-hidden">
 						<img src="https://picsum.photos/seed/{i+10}/800/450" alt="Blog Post" class="h-full w-full object-cover transition-transform group-hover:scale-105" />
