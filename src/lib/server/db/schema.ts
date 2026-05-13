@@ -21,7 +21,9 @@ export const post = mysqlTable('post', {
 	status: varchar('status', { length: 20 }).notNull().default('draft'), // draft, published
 	publishedAt: timestamp('published_at').$defaultFn(() => new Date()),
 	authorId: varchar('author_id', { length: 36 }).references(() => user.id),
-	categoryId: varchar('category_id', { length: 36 }).references(() => category.id)
+	categoryId: varchar('category_id', { length: 36 }).references(() => category.id),
+	seoTitle: varchar('seo_title', { length: 255 }),
+	seoDescription: text('seo_description')
 });
 
 export const category = mysqlTable('category', {
@@ -43,6 +45,8 @@ export const page = mysqlTable('page', {
 	content: text('content').notNull(),
 	sections: text('sections'), // JSON array of sections
 	status: varchar('status', { length: 20 }).notNull().default('draft'), // draft | published
+	seoTitle: varchar('seo_title', { length: 255 }),
+	seoDescription: text('seo_description'),
 	createdAt: timestamp('created_at').$defaultFn(() => new Date())
 });
 

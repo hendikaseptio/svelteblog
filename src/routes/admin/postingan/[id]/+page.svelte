@@ -17,6 +17,8 @@
 	let cover = $state(data.post.cover || "");
 	let status = $state(data.post.status || 'draft');
 	let publishedAt = $state(data.post.publishedAt ? new Date(data.post.publishedAt).toISOString().slice(0, 16) : new Date().toISOString().slice(0, 16));
+	let seoTitle = $state(data.post.seoTitle || '');
+	let seoDescription = $state(data.post.seoDescription || '');
 </script>
 
 <div class="flex flex-col gap-6 max-w-5xl mx-auto w-full px-4 lg:px-6 py-6">
@@ -128,6 +130,28 @@
 				</Card.Header>
 				<Card.Content>
 					<ImageUpload bind:value={cover} name="cover" label="" maxSizeKB={500} />
+				</Card.Content>
+			</Card.Root>
+
+			<Card.Root>
+				<Card.Header>
+					<Card.Title class="text-sm font-medium">SEO & Metadata</Card.Title>
+				</Card.Header>
+				<Card.Content class="space-y-4">
+					<div class="space-y-2">
+						<Label for="seoTitle">Meta Title</Label>
+						<Input id="seoTitle" name="seoTitle" bind:value={seoTitle} placeholder="Judul untuk Google..." />
+					</div>
+					<div class="space-y-2">
+						<Label for="seoDescription">Meta Description</Label>
+						<textarea 
+							id="seoDescription" 
+							name="seoDescription" 
+							bind:value={seoDescription} 
+							placeholder="Deskripsi singkat untuk pencarian..."
+							class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-root disabled:opacity-50"
+						></textarea>
+					</div>
 				</Card.Content>
 			</Card.Root>
 		</div>

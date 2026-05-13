@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { TrendingDown, TrendingUp } from 'lucide-svelte';
+	import { TrendingUp, FileText, File, Layers, Image } from 'lucide-svelte';
 	import { Badge } from '$lib/components/ui/badge/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
+
+	let { stats } = $props();
 </script>
 
 <div
@@ -9,82 +11,77 @@
 >
 	<Card.Root class="@container/card">
 		<Card.Header>
-			<Card.Description>Total Revenue</Card.Description>
+			<Card.Description>Total Postingan</Card.Description>
 			<Card.Title class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-				$1,250.00
+				{stats?.posts || 0}
 			</Card.Title>
 			<Card.Action>
-				<Badge variant="outline">
-					<TrendingUp />
-					+12.5%
+				<Badge variant="outline" class="bg-primary/10 text-primary border-primary/20">
+					<FileText size={14} class="mr-1" /> Artikel
 				</Badge>
 			</Card.Action>
 		</Card.Header>
 		<Card.Footer class="flex-col items-start gap-1.5 text-sm">
 			<div class="line-clamp-1 flex gap-2 font-medium">
-				Trending up this month <TrendingUp class="size-4" />
+				Semua postingan blog
 			</div>
-			<div class="text-muted-foreground">Visitors for the last 6 months</div>
 		</Card.Footer>
 	</Card.Root>
+
 	<Card.Root class="@container/card">
 		<Card.Header>
-			<Card.Description>New Customers</Card.Description>
+			<Card.Description>Total Halaman</Card.Description>
 			<Card.Title class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-				1,234
+				{stats?.pages || 0}
 			</Card.Title>
 			<Card.Action>
 				<Badge variant="outline">
-					<TrendingDown />
-					-20%
+					<File size={14} class="mr-1" /> Page
 				</Badge>
 			</Card.Action>
 		</Card.Header>
 		<Card.Footer class="flex-col items-start gap-1.5 text-sm">
 			<div class="line-clamp-1 flex gap-2 font-medium">
-				Down 20% this period <TrendingDown class="size-4" />
+				Halaman statis aktif
 			</div>
-			<div class="text-muted-foreground">Acquisition needs attention</div>
 		</Card.Footer>
 	</Card.Root>
+
 	<Card.Root class="@container/card">
 		<Card.Header>
-			<Card.Description>Active Accounts</Card.Description>
+			<Card.Description>Kategori</Card.Description>
 			<Card.Title class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-				45,678
+				{stats?.categories || 0}
 			</Card.Title>
 			<Card.Action>
 				<Badge variant="outline">
-					<TrendingUp />
-					+12.5%
+					<Layers size={14} class="mr-1" /> Taxon
 				</Badge>
 			</Card.Action>
 		</Card.Header>
 		<Card.Footer class="flex-col items-start gap-1.5 text-sm">
 			<div class="line-clamp-1 flex gap-2 font-medium">
-				Strong user retention <TrendingUp class="size-4" />
+				Pengelompokan artikel
 			</div>
-			<div class="text-muted-foreground">Engagement exceed targets</div>
 		</Card.Footer>
 	</Card.Root>
+
 	<Card.Root class="@container/card">
 		<Card.Header>
-			<Card.Description>Growth Rate</Card.Description>
+			<Card.Description>Media Terupload</Card.Description>
 			<Card.Title class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-				4.5%
+				{stats?.media || 0}
 			</Card.Title>
 			<Card.Action>
 				<Badge variant="outline">
-					<TrendingUp />
-					+4.5%
+					<Image size={14} class="mr-1" /> Asset
 				</Badge>
 			</Card.Action>
 		</Card.Header>
 		<Card.Footer class="flex-col items-start gap-1.5 text-sm">
 			<div class="line-clamp-1 flex gap-2 font-medium">
-				Steady performance increase <TrendingUp class="size-4" />
+				Gambar & file di storage
 			</div>
-			<div class="text-muted-foreground">Meets growth projections</div>
 		</Card.Footer>
 	</Card.Root>
 </div>

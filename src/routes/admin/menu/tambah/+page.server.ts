@@ -22,7 +22,14 @@ export const actions: Actions = {
 		}
 
 		try {
-			await db.insert(menu).values({ label, url, order, parentId, isExternal });
+			await db.insert(menu).values({ 
+				id: crypto.randomUUID(),
+				label, 
+				url, 
+				order, 
+				parentId, 
+				isExternal 
+			});
 		} catch {
 			return fail(500, { error: 'Gagal menambahkan menu' });
 		}

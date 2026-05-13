@@ -35,7 +35,8 @@ export const actions: Actions = {
 		const cover = formData.get('cover') as string;
 		const status = formData.get('status') as string;
 		const publishedAtStr = formData.get('publishedAt') as string;
-		const selectedCategories = formData.getAll('categories') as string[];
+		const seoTitle = formData.get('seoTitle') as string;
+		const seoDescription = formData.get('seoDescription') as string;
 
 		// Simple slug generator
 		const slug = title
@@ -53,7 +54,9 @@ export const actions: Actions = {
 					excerpt,
 					cover,
 					status,
-					publishedAt: publishedAtStr ? new Date(publishedAtStr) : new Date()
+					publishedAt: publishedAtStr ? new Date(publishedAtStr) : new Date(),
+					seoTitle,
+					seoDescription
 				})
 				.where(eq(post.id, params.id));
 
