@@ -7,6 +7,11 @@
 	let { data } = $props();
 </script>
 
+<svelte:head>
+	<title>Blog - {data.settings?.siteName || 'SvelteBlog'}</title>
+	<meta name="description" content="Temukan berbagai artikel menarik seputar teknologi dan pengembangan web." />
+</svelte:head>
+
 <div class="container mx-auto px-4 py-16">
 	<div class="flex flex-col items-center text-center mb-16">
 		<h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">Arsip Blog</h1>

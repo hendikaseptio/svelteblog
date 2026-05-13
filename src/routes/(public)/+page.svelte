@@ -5,6 +5,13 @@
 	let { data } = $props();
 </script>
 
+<svelte:head>
+	<title>{data.page?.seoTitle || data.page?.title || 'Beranda'} | {data.settings?.siteName || 'SvelteBlog'}</title>
+	{#if data.page?.seoDescription}
+		<meta name="description" content={data.page.seoDescription} />
+	{/if}
+</svelte:head>
+
 {#if data.page && data.page.content && data.page.content !== 'Konten halaman beranda'}
 	<div class="container mx-auto px-4 py-16 prose prose-lg dark:prose-invert max-w-none">
 		{@html data.page.content}

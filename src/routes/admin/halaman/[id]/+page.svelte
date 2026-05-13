@@ -14,6 +14,8 @@
 	let slug = $state(data.page.slug);
 	let content = $state(data.page.content);
 	let status = $state(data.page.status);
+	let seoTitle = $state(data.page.seoTitle || '');
+	let seoDescription = $state(data.page.seoDescription || '');
 
 	$effect(() => {
 		if (form?.success) {
@@ -65,6 +67,8 @@
 				<input type="hidden" name="slug" value={slug} />
 				<input type="hidden" name="content" value={content} />
 				<input type="hidden" name="status" value={status} />
+				<input type="hidden" name="seoTitle" value={seoTitle} />
+				<input type="hidden" name="seoDescription" value={seoDescription} />
 				<Button type="submit">
 					<Save class="mr-2 h-4 w-4" /> Simpan Perubahan
 				</Button>
@@ -106,6 +110,25 @@
 							<Select.Item value="published">Diterbitkan</Select.Item>
 						</Select.Content>
 					</Select.Root>
+				</div>
+			</div>
+
+			<div class="rounded-xl border bg-card p-6 space-y-4">
+				<h3 class="font-semibold">SEO & Metadata</h3>
+				
+				<div class="space-y-2">
+					<Label for="seoTitle">Meta Title</Label>
+					<Input id="seoTitle" bind:value={seoTitle} placeholder="Judul untuk Google..." />
+				</div>
+
+				<div class="space-y-2">
+					<Label for="seoDescription">Meta Description</Label>
+					<textarea 
+						id="seoDescription" 
+						bind:value={seoDescription} 
+						placeholder="Deskripsi singkat untuk pencarian..."
+						class="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-root disabled:opacity-50"
+					></textarea>
 				</div>
 			</div>
 		</div>

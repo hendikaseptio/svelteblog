@@ -35,6 +35,7 @@ export const actions: Actions = {
 		const cover = formData.get('cover') as string;
 		const status = formData.get('status') as string;
 		const publishedAtStr = formData.get('publishedAt') as string;
+		const selectedCategories = formData.getAll('categories') as string[];
 		const seoTitle = formData.get('seoTitle') as string;
 		const seoDescription = formData.get('seoDescription') as string;
 

@@ -38,23 +38,34 @@ export const actions: Actions = {
 		const content = formData.get('content') as string;
 		const status = formData.get('status') as string;
 
+		const seoTitle = formData.get('seoTitle') as string;
+		const seoDescription = formData.get('seoDescription') as string;
+
 		if (!title || !slug) {
 			return fail(400, { message: 'Judul dan Slug wajib diisi' });
 		}
 
 		if (params.id === 'tambah') {
 			await db.insert(pageTable).values({
+				id: crypto.randomUUID(),
 				title,
 				slug,
 				content,
-				status
+				status,
+				seoTitle,
+				seoDescription
 			});
-			// In Drizzle MySQL, insert returns a result object, but we need the ID if it's not a UUID.
-			// But our schema uses UUID $defaultFn, so we should probably generate it here or let it be.
 			throw redirect(302, '/admin/halaman');
 		} else {
 			await db.update(pageTable)
-				.set({ title, slug, content, status })
+				.set({ 
+					title, 
+					slug, 
+					content, 
+					status,
+					seoTitle,
+					seoDescription 
+				})
 				.where(eq(pageTable.id, params.id!));
 			
 			return { success: true };

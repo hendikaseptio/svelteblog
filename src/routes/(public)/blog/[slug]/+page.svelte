@@ -6,6 +6,13 @@
 	const post = $derived(data.post);
 </script>
 
+<svelte:head>
+	<title>{post.seoTitle || post.title} | {data.settings?.siteName || 'Blog'}</title>
+	{#if post.seoDescription}
+		<meta name="description" content={post.seoDescription} />
+	{/if}
+</svelte:head>
+
 <div class="container mx-auto px-4 py-12">
 	<div class="max-w-3xl mx-auto">
 		<Button variant="ghost" size="sm" href="/blog" class="mb-8 -ml-4">
